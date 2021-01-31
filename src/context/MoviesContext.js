@@ -12,13 +12,19 @@ export const MoviesProvider = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [lastMovie, setLastMovie] = useState("");
 
-  const FEATURED_API = config.FEATURED_API;
-
-  const SEARCH_API = config.SEARCH_API;
+  const FEATURED_API =
+    "https://api.themoviedb.org/3/discover/movie?sort_by?popularity.desc&api_key=" +
+    config.api_key +
+    "&";
+  const SEARCH_API =
+    "https://api.themoviedb.org/3/search/movie?&api_key=" +
+    config.api_key +
+    "&query=";
 
   const fetchFeatured = async () => {
     const response = await fetch(FEATURED_API);
     const data = await response.json();
+    // console.log(FEATURED_API);
     setMovies(data.results);
   };
 
