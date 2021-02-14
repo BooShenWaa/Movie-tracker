@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import { MoviesContext } from "../../context/MoviesContext";
@@ -28,13 +28,16 @@ function Header() {
         <NavLink to="/my-movies" className="nav-item">
           <h3>My Movies: {movieCounter}</h3>
         </NavLink>
+        {/* <NavLink to="/my-reviews" className="nav-item">
+          <h3>My Reviews</h3>
+        </NavLink> */}
       </nav>
 
       <div className="header-center ">
         <h1 className="page-logo"> My Movie Tracker </h1>
       </div>
       <div className="header-right">
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className="search-form">
           <input
             type="text"
             className="search"

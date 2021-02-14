@@ -31,7 +31,11 @@ body {
   flex-direction: row;
   color: #fff;
   align-items: center;
+  max-width: 33%;
 }
+/* .header-left:first-child {
+  margin-right: 10px;
+} */
 
 .nav-item {
   border: 1px solid #d3d3d3;
@@ -39,9 +43,14 @@ body {
   padding: 0.2rem;
   display: flex;
   justify-content: center;
-  background-color: #fff;
+  /* background-color: #fff; */
   margin-right: 1rem;
+  flex-grow: 1;
 }
+
+/* .nav-item :first-child {
+  margin-right: 10px;
+} */
 
 .nav-item h3 {
   padding: 0.2rem;
@@ -50,29 +59,39 @@ body {
 
 .header-left a {
   text-decoration: none;
-  color: #373b69;
+  color: #fff;
+  margin: 0;
   /* padding-right: 20px; */
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
 }
 
 .header-right {
   display: flex;
   align-items: center;
   flex: 1;
-  max-width: fit-content;
+  max-width: 15%;
   padding: 10px;
   height: 40px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 0.3rem;
   border-radius: 999px;
   border: 1px solid #d3d3d3;
 }
 
-.header-right form {
-  display: flex;
-  justify-content: center;
-}
-
 .header-right > form > input {
   border: none;
-  width: 250px;
+  /* width: 250px; */
+  width: 100%;
+  min-width: 75px;
   outline-width: 0;
   background-color: #373b69;
   color: #fff;
@@ -143,7 +162,7 @@ body {
   left: 0;
   right: 0;
   overflow: auto;
-  max-height: 100%;
+  height: 100%;
   color: #373b69;
   padding: 1rem;
   transform: translateY(102%);
@@ -152,6 +171,28 @@ body {
 }
 
 .movie:hover .movie-overview {
+  transform: translateY(0%);
+}
+
+.movie-buttons {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  max-height: 100%;
+  color: #373b69;
+  padding: 1rem;
+  transform: translateY(102%);
+  transition: transform 0.3s ease-in-out;
+  font-size: 0.9rem;
+}
+
+.movie:hover .movie-buttons {
   transform: translateY(0%);
 }
 
@@ -184,4 +225,24 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+/* Star Ratings */
+.star-rating > fieldset {
+  margin: 0;
+}
+.star-heading {
+  margin: 0;
+  padding-bottom: 0.4rem;
+}
+
+.star-rating-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.star-rating-section * {
+  outline: none;
 }

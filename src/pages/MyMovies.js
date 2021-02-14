@@ -1,15 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { MoviesContext } from "../context/MoviesContext";
-import Movie from "../components/Movie/Movie";
+
 import Header from "../components/Header/Header";
+import TrackedMovie from "../components/Movie/TrackedMovie";
 
 function MyMovies() {
-  const { myMovies, lastMovie, setMyMovies } = useContext(MoviesContext);
-
-  const undoHandler = () => {
-    setMyMovies([...myMovies, lastMovie]);
-    console.log(myMovies, lastMovie);
-  };
+  const { myMovies } = useContext(MoviesContext);
 
   return (
     <div>
@@ -18,17 +14,15 @@ function MyMovies() {
         <h2>My Movie List</h2>
         <div className="movie-container">
           {myMovies.map((movie) => (
-            <Movie
+            <TrackedMovie
               title={movie.title}
               pic={movie.pic}
               overview={movie.overview}
               key={movie.id}
               rating={movie.rating}
+              id={movie.id}
             />
           ))}
-        </div>
-        <div className="undo-btn">
-          <button onClick={undoHandler}>Undo</button>
         </div>
       </div>
     </div>

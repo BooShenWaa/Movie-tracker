@@ -1,11 +1,20 @@
 import React, { useContext } from "react";
 import { MoviesContext } from "../../context/MoviesContext";
+// import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
+import StarRating from "../Stars/StarRating";
 
 const IMG_API = "https://image.tmdb.org/t/p/w1280";
 
-function Movie({ title, pic, overview, rating, id }) {
-  const { myMovies, setMyMovies, setLastMovie } = useContext(MoviesContext);
+function TrackedMovie({ title, pic, overview, rating, id, myRating }) {
+  const {
+    myMovies,
+    setMyMovies,
+    // lastMovie,
+    setLastMovie,
+    // myReviews,
+    // setMyReviews,
+  } = useContext(MoviesContext);
 
   const setVoteClass = (rating) => {
     if (rating >= 8) {
@@ -20,7 +29,7 @@ function Movie({ title, pic, overview, rating, id }) {
   const { addToast } = useToasts();
 
   const clickHandler = () => {
-    let indexOfId = myMovies.findIndex((i) => i.title === title);
+    const indexOfId = myMovies.findIndex((i) => i.title === title);
     let newMovie;
 
     if (indexOfId === -1) {
@@ -30,12 +39,8 @@ function Movie({ title, pic, overview, rating, id }) {
         pic: pic,
         rating: rating,
         overview: overview,
+        myRating: 0,
       };
-
-      addToast(title + " added to your list!", {
-        appearance: "success",
-        autoDismiss: true,
-      });
 
       setMyMovies([...myMovies, newMovie]);
       localStorage.setItem("myMovies", JSON.stringify(myMovies));
@@ -43,7 +48,6 @@ function Movie({ title, pic, overview, rating, id }) {
       let filtered = myMovies.filter(function (el) {
         return el.title !== title;
       });
-
       addToast(title + " removed from your list!", {
         appearance: "warning",
         autoDismiss: true,
@@ -56,8 +60,9 @@ function Movie({ title, pic, overview, rating, id }) {
   };
 
   return (
-    <div className="movie" onClick={clickHandler}>
+    <div className="movie">
       <img
+        onClick={clickHandler}
         src={
           pic
             ? IMG_API + pic
@@ -67,17 +72,14 @@ function Movie({ title, pic, overview, rating, id }) {
       />
       <div className="movie-info">
         <h3>{title}</h3>
+
         <span className={`rating ${setVoteClass(rating)}`}>
           <h4>{rating}</h4>
         </span>
       </div>
-
-      <div className="movie-overview">
-        <h3>Overview:</h3>
-        <p>{overview}</p>
-      </div>
+      <StarRating myRating={myRating} id={id} />
     </div>
   );
 }
 
-export default Movie;
+export default TrackedMovie;
