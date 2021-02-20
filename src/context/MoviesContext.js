@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useCallback } from "react";
 import { config } from "./../config";
 // import { useToasts } from "react-toast-notifications";
 
@@ -34,21 +34,41 @@ export const MoviesProvider = (props) => {
     config.api_key +
     "&query=";
 
-  const fetchFeatured = async () => {
+  // const fetchFeatured = async () => {
+  //   const response = await fetch(FEATURED_API);
+  //   const data = await response.json();
+  //   console.log("test");
+  //   setMovies(data.results);
+  // };
+
+  // const fetchSearch = async (term) => {
+  //   if (term.length > 0) {
+  //     const response = await fetch(SEARCH_API + term);
+  //     const data = await response.json();
+  //     setMovies(data.results);
+  //     setSearchTerm("");
+  //   }
+  // };
+
+  const fetchFeatured = useCallback(async () => {
     const response = await fetch(FEATURED_API);
     const data = await response.json();
-    console.log("test");
+    console.log(FEATURED_API);
     setMovies(data.results);
-  };
+  }, [setMovies, FEATURED_API]);
 
-  const fetchSearch = async (term) => {
-    if (term.length > 0) {
-      const response = await fetch(SEARCH_API + term);
-      const data = await response.json();
-      setMovies(data.results);
-      setSearchTerm("");
-    }
-  };
+  const fetchSearch = useCallback(
+    async (term) => {
+      if (term.length > 0) {
+        console.log(`callin fir ${term}`);
+        const response = await fetch(SEARCH_API + term);
+        const data = await response.json();
+        setMovies(data.results);
+        setSearchTerm("");
+      }
+    },
+    [setMovies, setSearchTerm, SEARCH_API],
+  );
 
   return (
     <MoviesContext.Provider
