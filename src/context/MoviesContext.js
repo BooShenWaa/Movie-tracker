@@ -1,10 +1,9 @@
 import React, { createContext, useState, useCallback } from "react";
-import { config } from "./../config";
-// import { useToasts } from "react-toast-notifications";
+import { config } from "./../ignored/config.js";
 
 export const MoviesContext = createContext({
-  fetchFeatured: () => [],
-  fetchSearch: () => [],
+  fetchSearch: () => {},
+  fetchFeatured: () => {},
   movies: [],
   setMovies: () => {},
   searchTerm: "",
@@ -14,7 +13,6 @@ export const MoviesContext = createContext({
   lastMovie: null,
   setLastMovie: () => {},
 });
-
 export const MoviesProvider = (props) => {
   const [movies, setMovies] = useState([]);
   const [myMovies, setMyMovies] = useState(() => {
@@ -22,49 +20,40 @@ export const MoviesProvider = (props) => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [lastMovie, setLastMovie] = useState("");
-  const [myReviews, setMyReviews] = useState("");
-  // const { addToast } = useToasts();
-
+  console.log("rerender MoviesProvider");
+  console.log("searchTerm", searchTerm);
   const FEATURED_API =
     "https://api.themoviedb.org/3/discover/movie?sort_by?popularity.desc&api_key=" +
-    config.api_key +
-    "&";
+    config.api_key;
   const SEARCH_API =
     "https://api.themoviedb.org/3/search/movie?&api_key=" +
     config.api_key +
     "&query=";
 
-  // const fetchFeatured = async () => {
-  //   const response = await fetch(FEATURED_API);
-  //   const data = await response.json();
-  //   console.log("test");
-  //   setMovies(data.results);
-  // };
-
-  // const fetchSearch = async (term) => {
-  //   if (term.length > 0) {
-  //     const response = await fetch(SEARCH_API + term);
-  //     const data = await response.json();
-  //     setMovies(data.results);
-  //     setSearchTerm("");
-  //   }
-  // };
-
   const fetchFeatured = useCallback(async () => {
     const response = await fetch(FEATURED_API);
     const data = await response.json();
-    console.log(FEATURED_API);
+    // console.log(FEATURED_API);
     setMovies(data.results);
   }, [setMovies, FEATURED_API]);
 
   const fetchSearch = useCallback(
     async (term) => {
       if (term.length > 0) {
-        console.log(`callin fir ${term}`);
-        const response = await fetch(SEARCH_API + term);
-        const data = await response.json();
-        setMovies(data.results);
-        setSearchTerm("");
+        try {
+          console.log(`callin fir ${term}`);
+          const response = await fetch(SEARCH_API + term);
+          let data = null;
+          if (response.ok) {
+            data = await response.json();
+          }
+          if (data?.results) {
+            setMovies(data.results);
+          } else {
+            console.log("problem", data);
+          }
+          setSearchTerm("");
+        } catch (err) {}
       }
     },
     [setMovies, setSearchTerm, SEARCH_API],
@@ -83,8 +72,6 @@ export const MoviesProvider = (props) => {
         setMyMovies,
         lastMovie,
         setLastMovie,
-        myReviews,
-        setMyReviews,
       }}
     >
       {props.children}

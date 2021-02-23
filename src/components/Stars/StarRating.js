@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import ReactStars from "react-rating-stars-component";
-import { MoviesContext } from "../../context/MoviesContext";
+import { MoviesContext } from "../../context/MoviesContext.js";
 
 function StarRating({ id, myRating }) {
   const { myMovies } = useContext(MoviesContext);

@@ -8,7 +8,7 @@ function MovieList() {
 
   useEffect(() => {
     fetchFeatured();
-  }, [fetchFeatured()]);
+  }, [fetchFeatured]);
 
   return (
     <div>
