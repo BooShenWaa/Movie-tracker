@@ -22,6 +22,7 @@ export const MoviesProvider = (props) => {
   const [lastMovie, setLastMovie] = useState("");
   // console.log("rerender MoviesProvider");
   // console.log("searchTerm", searchTerm);
+
   const FEATURED_API =
     "https://api.themoviedb.org/3/discover/movie?sort_by?popularity.desc&api_key=" +
     config.api_key;
@@ -31,11 +32,14 @@ export const MoviesProvider = (props) => {
     "&query=";
 
   const fetchFeatured = useCallback(async () => {
-    const response = await fetch(FEATURED_API);
-    const data = await response.json();
-    // console.log(FEATURED_API);
+    if (config.api_key) {
+      const response = await fetch(FEATURED_API);
+      const data = await response.json();
 
-    setMovies(data.results);
+      setMovies(data.results);
+    } else {
+      console.log("No API Key present in config file!");
+    }
   }, [setMovies, FEATURED_API]);
 
   const fetchSearch = useCallback(
