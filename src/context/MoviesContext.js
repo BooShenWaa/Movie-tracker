@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from "react";
-import { config } from "./../ignored/config.js";
+import { config } from "./../config";
 
 export const MoviesContext = createContext({
   fetchSearch: () => {},
@@ -20,8 +20,8 @@ export const MoviesProvider = (props) => {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [lastMovie, setLastMovie] = useState("");
-  console.log("rerender MoviesProvider");
-  console.log("searchTerm", searchTerm);
+  // console.log("rerender MoviesProvider");
+  // console.log("searchTerm", searchTerm);
   const FEATURED_API =
     "https://api.themoviedb.org/3/discover/movie?sort_by?popularity.desc&api_key=" +
     config.api_key;
@@ -34,6 +34,7 @@ export const MoviesProvider = (props) => {
     const response = await fetch(FEATURED_API);
     const data = await response.json();
     // console.log(FEATURED_API);
+
     setMovies(data.results);
   }, [setMovies, FEATURED_API]);
 
